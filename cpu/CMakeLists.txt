@@ -170,7 +170,7 @@ add_library(xmr-stak-c
 set_property(TARGET xmr-stak-c PROPERTY C_STANDARD 99)
 target_link_libraries(xmr-stak-c ${LIBS})
 
-add_executable(xmr-stak-cpu
+add_executable(xx
     ${SRCFILES_CPP}
 )
 
@@ -184,15 +184,5 @@ target_link_libraries(xmr-stak-cpu ${LIBS} xmr-stak-c)
 # do not install the binary if the project and install are equal
 if( NOT "${CMAKE_INSTALL_PREFIX}" STREQUAL "${PROJECT_BINARY_DIR}" )
     install(TARGETS xmr-stak-cpu
-            RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
+            RUNTIME DESTINATION "/usr/local/bin")
 endif()
-
-
-# avoid overwrite of user defined settings
-# install `config.txt`if file not exists in `${CMAKE_INSTALL_PREFIX}/bin`
-install(CODE " \
-    if(NOT EXISTS ${CMAKE_INSTALL_PREFIX}/bin/config.txt)\n   \
-        file(INSTALL ${CMAKE_CURRENT_SOURCE_DIR}/config.txt   \
-            DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)\n        \
-    endif()"
-)

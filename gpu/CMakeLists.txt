@@ -63,7 +63,7 @@ if(NOT XMR-STAK_THREADS EQUAL 0)
     add_definitions("-DXMR_STAK_THREADS=${XMR-STAK_THREADS}")
 endif()
 
-set(CUDA_ARCH "60" CACHE STRING "Set GPU architecture (semicolon separated list, e.g. '-DCUDA_ARCH=60')")
+set(CUDA_ARCH "20;30;35;37;50;52;60;61;62" CACHE STRING "Set GPU architecture (semicolon separated list, e.g. '-DCUDA_ARCH=20;35;60')")
 
 # validate architectures (only numbers are allowed)
 foreach(CUDA_ARCH_ELEM ${CUDA_ARCH})
@@ -233,16 +233,5 @@ target_link_libraries(xmr-stak-nvidia ${LIBS} xmr-stak-nvidiaCuda xmr-stak-nvidi
 ################################################################################
 
 # do not install the binary if the project and install are equal
-if( NOT "${CMAKE_INSTALL_PREFIX}" STREQUAL "${PROJECT_BINARY_DIR}" )
-    install(TARGETS xmr-stak-nvidia
-            DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
-endif()
-
-# avoid overwrite of user defined settings
-# install `config.txt`if file not exists in `${CMAKE_INSTALL_PREFIX}/bin`
-install(CODE " \
-    if(NOT EXISTS ${CMAKE_INSTALL_PREFIX}/bin/config.txt)\n   \
-        file(INSTALL ${CMAKE_CURRENT_SOURCE_DIR}/config.txt   \
-            DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)\n        \
-    endif()"
-)
+install(TARGETS xmr-stak-nvidia
+        DESTINATION /usr/local/bin)
